@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Nouvel Événement{% endblock %}
+
+{% block body %}
+<!-- Flatpickr CSS -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+
+<style>
+  /* Styles personnalisés */
+  body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .create-event {
+    padding: 50px 0;
+  }
+
+  .create-event .section-title h2 {
+    color: #333;
+    font-weight: bold;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .create-event .form-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-control {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+</style>
+
+<section id="create-event" class="create-event section">
+  <div class="container">
+    <div class="section-title text-center">
+      <h2>Créer un Événement</h2>
+      <p>Ajoutez un nouvel événement à votre gestionnaire avec un design moderne.</p>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="form-container">
+          {{ form_start(form, { 'attr': { 'novalidate': 'novalidate', 'class': 'needs-validation' } }) }}
+          
+            <!-- Nom -->
+            <div>
+              <label for="nomEv" class="form-label fw-bold">Nom de l'Événement</label>
+                {{ form_widget(form.nomEv, { 'attr': { 'class': 'form-control', 'placeholder': 'Nom de l\'événement' } }) }}
+                {% if form.nomEv.vars.errors|length > 0 %}
+                  <div class="text-danger">
+                    {{ form_errors(form.nomEv) }}
+                  </div>
+                {% endif %}
+            </div>
+            <!-- Description -->
+            <div>
+              <label for="descriptionEv" class="form-label fw-bold">Description</label>
+              {{ form_widget(form.descriptionEv, { 'attr': { 'class': 'form-control', 'placeholder': 'Décrivez l\'événement ici...' } }) }}
+              {% if form.descriptionEv.vars.errors|length > 0 %}
+                  <div class="text-danger">
+                    {{ form_errors(form.descriptionEv) }}
+                  </div>
+                {% endif %}
+            </div>
+
+            <!-- Date et Heure avec Flatpickr -->
+            <div>
+              <label for="dateEv" class="form-label fw-bold">Date et Heure</label>
+              {{ form_widget(form.dateEv, { 'attr': { 'class': 'form-control flatpickr-input', 'placeholder': 'Sélectionner la date et l\'heure' } }) }}
+              {% if form.dateEv.vars.errors|length > 0 %}
+                  <div class="text-danger">
+                    {{ form_errors(form.dateEv) }}
+                  </div>
+                {% endif %}
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn btn-primary">
+                Enregistrer
+              </button>
+              <a href="{{ path('app_evenement_index') }}" class="btn btn-secondary">
+                Retour à la liste
+              </a>
+            </div>
+
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Initialisation de Flatpickr pour inclure la date et l'heure
+    flatpickr(".flatpickr-input", {
+      enableTime: true,            // Activer la sélection de l'heure
+      dateFormat: "Y-m-d H:i",     // Format de la date et de l'heure (ex: 2024-12-31 14:30)
+      minDate: "today",            // Optionnel : Empêcher la sélection d'une date passée
+      locale: "fr",                // Localisation en français
+      altInput: true,              // Afficher une version alternative de l'input
+      altFormat: "F j, Y H:i",     // Format alternatif pour l'affichage (avec l'heure)
+      time_24hr: true,             // Utiliser le format 24 heures
+      allowInput: true             // Permet la saisie manuelle si nécessaire
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    <div class="mb-3">
+        <label for="contenu" class="form-label fw-bold">Contenu</label>
+        {{ form_widget(form.contenu, { 'attr': { 'class': 'form-control', 'placeholder': 'Contenu de la demande' } }) }}
+        {% if form.contenu.vars.errors|length > 0 %}
+            <div class="text-danger mt-1">
+                {{ form_errors(form.contenu) }}
+            </div>
+        {% endif %}
+    </div>
+    <button class="btn btn-primary mt-3">{{ button_label|default('Mettre à jour') }}</button>
+{{ form_end(form) }}

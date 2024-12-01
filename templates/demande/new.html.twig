@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une Nouvelle Demande{% endblock %}
+
+{% block body %}
+<!-- Flatpickr CSS -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+
+<style>
+  /* Styles personnalisés */
+  body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .create-request {
+    padding: 50px 0;
+  }
+
+  .create-request .section-title h2 {
+    color: #333;
+    font-weight: bold;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .create-request .form-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-control {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+</style>
+
+<section id="create-request" class="create-request section">
+  <div class="container">
+    <div class="section-title text-center">
+      <h2>Créer une Nouvelle Demande</h2>
+      <p>Ajoutez une demande à votre gestionnaire avec un design moderne.</p>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="form-container">
+          {{ form_start(form, { 'attr': { 'novalidate': 'novalidate', 'class': 'needs-validation' } }) }}
+          <!-- Contenue -->
+            <div>
+            {{ form_widget(form.contenu, { 'attr': { 'class': 'form-control', 'placeholder': 'Exprimer vous' } }) }}
+              {% if form.contenu.vars.errors|length > 0 %}
+                <div class="text-danger">
+                  {{ form_errors(form.contenu) }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn btn-primary">
+                Enregistrer
+              </button>
+              <a href="{{ path('app_demande_index') }}" class="btn btn-secondary">
+                Retour à la liste
+              </a>
+            </div>
+
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

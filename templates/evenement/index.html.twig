@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenement Index{% endblock %}
+
+{% block body %}
+    <h1 class="text-center my-4">Evenement Calendar</h1>
+    <!-- Conteneur du calendrier avec des styles personnalisés -->
+    <div class="button-container text-center my-4">
+        <a href="{{ path('app_evenement_new') }}" class="btn btn-success">Créer un événement</a>
+    </div>
+    <div id="calendar" class="calendar-container"></div>
+    <style>
+        /* Centrer le conteneur du bouton */
+        .button-container {
+            display: flex;
+            justify-content: center; /* Centre horizontalement */
+            align-items: center; /* Centre verticalement */
+            height: 200px; /* Ajustez la hauteur selon vos besoins */
+        }
+
+        /* Style pour le conteneur du calendrier */
+        .calendar-container {
+            width: 80%;   /* Vous pouvez ajuster la largeur ici */
+            max-width: 1000px;  /* Limite la taille maximale */
+            margin: 0 auto; /* Centrer le calendrier horizontalement */
+            background-color: #f8f9fa; /* Fond de couleur claire */
+            background-image: url('backgroundCalendrier.png'); /* Remplacez par le chemin de votre image */
+            background-size: 70%; /* La taille de l'image est ajustée pour couvrir toute la zone */
+            background-position: center center; /* Centrer l'image */
+            background-repeat: no-repeat; /* Empêche la répétition de l'image */
+            border-radius: 8px; /* Coins arrondis */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère autour du calendrier */
+            padding: 20px; /* Espacement interne */
+
+            /* Animation de défilement de l'image */
+            animation: moveBackground 60s linear infinite; /* Animation de mouvement de fond */
+        }
+
+        /* Définir l'animation de défilement de l'image */
+        @keyframes moveBackground {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 100% 100%; /* Déplace l'image en diagonale */
+            }
+            70% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        /* Style du titre du calendrier */
+        h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        /* Style du bouton */
+        .btn-success {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth', // Affiche le mois par défaut
+                events: [
+                    {% for evenement in evenements %}
+                        {
+                            title: '{{ evenement.nomEv }}',  // Titre de l'événement
+                            start: '{{ evenement.dateEv|date("Y-m-d") }}',  // Date de l'événement
+                            url: '{{ path('app_evenement_show', {'id': evenement.id}) }}',  // Lien vers la page de détails
+                            color: '#FF5733',  // Vous pouvez changer cette couleur
+                            textColor: '#ffffff'  // Couleur du texte dans l'événement
+                        },
+                    {% endfor %}
+                ],
+                eventClick: function(info) {
+                    // Lorsque l'on clique sur un événement, il redirige vers la page de détails
+                    window.location.href = info.event.url;
+                }
+            });
+            calendar.render();
+        });
+    </script>
+{% endblock %}
